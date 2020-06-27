@@ -28,7 +28,8 @@ router.post('/', [
             const { name, email, password } = req.body// destructoring req.body 
 
             //TODO: see if users already exists
-            let user = await User.findOne({ email })
+            let user = await User.findOne({ email });
+
             if (user) {
                 return res
                     .status(400)
@@ -36,11 +37,12 @@ router.post('/', [
             }
 
             //TODO: get users gravatar
-            const avatar = gravatar.url(email, {
-                s: '200',
-                r: 'pg',
-                d: 'mm'
-            })
+            const avatar =
+                gravatar.url(email, {
+                    s: '200',
+                    r: 'pg',
+                    d: 'mm'
+                })
 
             // initalize the user
             user = new User({
@@ -58,7 +60,7 @@ router.post('/', [
             res.send('user registered');
         } catch (err) {
             console.error('error in users POST ', err);
-            res.send(500).send('Server error')
+            res.status(500).send('Server error');
         }
     });
 
