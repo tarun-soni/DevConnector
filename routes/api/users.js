@@ -24,9 +24,7 @@ router.post('/', [
         }
 
         try {
-
             const { name, email, password } = req.body// destructoring req.body 
-
             //TODO: see if users already exists
             let user = await User.findOne({ email });
 
@@ -51,7 +49,7 @@ router.post('/', [
 
             //TODO: hash the password
             const salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(password, salt); // override the plaintext pass wid hash
+            user.password = await bcrypt.hash(password, salt); // override the inited plaintext pass wid hash
 
             await user.save(); // save the initialized user
 
