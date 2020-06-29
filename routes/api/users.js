@@ -9,7 +9,7 @@ const User = require('../../models/User');
 
 
 //@route       POST api/users
-//@desc        test route
+//@desc        Register User
 //@access      public
 const nameErrorMsg = " Name is Required'"
 const emailErrorMsg = " Please input a valid email address"
@@ -26,8 +26,9 @@ router.post('/', [
             return res.status(400).json({ errors: errors.array() })
         }
 
+        const { name, email, password } = req.body// destructoring req.body 
+
         try {
-            const { name, email, password } = req.body// destructoring req.body 
             //TODO: see if users already exists
             let user = await User.findOne({ email });
 
@@ -67,6 +68,7 @@ router.post('/', [
             jwt.sign(
                 payload,
                 config.get('jwtSecret'),
+                { expiresIn: 360000 },
                 (err, token) => {
                     if (err) throw err
                     res.json({ token })
