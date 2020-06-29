@@ -1,9 +1,12 @@
 const express = require('express');
 const gravatar = require('gravatar');
+const config = require('config');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
+
 
 //@route       POST api/users
 //@desc        test route
@@ -42,7 +45,7 @@ router.post('/', [
                     d: 'mm'
                 })
 
-            // initalize the user
+            // create / initalize created user
             user = new User({
                 name, email, avatar, password
             })
@@ -54,8 +57,23 @@ router.post('/', [
             await user.save(); // save the initialized user
 
             // TODO: return jwt
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            }
 
-            res.send('user registered');
+            // payload,algo,secret,callback
+            jwt.sign(
+                payload,
+                { algorithm: 'RS256' },
+                config.get('jwtSecret'),
+                (err, token) => {
+                    if (err) throw err
+                    res.json({ token })
+                }
+            );
+
         } catch (err) {
             console.error('error in users POST ', err);
             res.status(500).send('Server error');
