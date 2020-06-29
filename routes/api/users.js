@@ -66,7 +66,6 @@ router.post('/', [
             // payload,algo,secret,callback
             jwt.sign(
                 payload,
-                { algorithm: 'RS256' },
                 config.get('jwtSecret'),
                 (err, token) => {
                     if (err) throw err
