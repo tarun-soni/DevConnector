@@ -10,7 +10,6 @@ const { check, validationResult } = require('express-validator');
 //@access      private
 router.get('/me', auth, async (req, res) => {
     try {
-
         const profile = await Profile.findOne({ user: req.user.id }).populate(
             'user', ['name', 'avatar']
         );
@@ -79,11 +78,10 @@ router.post('/',
         //Build social object
         profileFields.social = {}
         if (youtube) profileFields.social.youtube = youtube;
-        if (twitter) profileFields.social.youtube = youtube;
-        if (instagram) profileFields.social.youtube = youtube;
-        if (linkedin) profileFields.social.youtube = youtube;
-        if (facebook) profileFields.social.youtube = youtube;
-
+        if (twitter) profileFields.social.twitter = twitter;
+        if (instagram) profileFields.social.instagram = instagram;
+        if (linkedin) profileFields.social.linkedin = linkedin;
+        if (facebook) profileFields.social.facebook = facebook;
 
 
         //Create or update profile
@@ -109,10 +107,49 @@ router.post('/',
             console.log('profile CREATED>>>>>', profile)
 
         } catch (err) {
-            console.error('error in profile POST', err)
+            console.error('error in profile POST route api/profile >>>>>', err)
             res.status(500).send('Server Error');
         }
     }
 );
 
+
+//@route       GET api/profile/
+//@desc        get all profiles
+//@access      private
+
+router.get('/', async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        res.json(profiles);
+    } catch (err) {
+        console.error('error in profile GET ', err)
+        res.status(500).send('Server Error');
+    }
+})
+
+
+//@route       GET api/profile/user/:user_id
+//@desc        get profile by user id
+//@access      public
+
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
+
+        if (!profile) {
+            return res.status(400).send({ msg: 'Profile Not Found' })
+        }
+
+        res.json(profile);
+    } catch (err) {
+
+        if (err.kind == 'ObjectId') {
+            return res.status(400).send({ msg: 'Profile Not Found' })
+
+        }
+        console.error('error in profile GET route: user/userid >>>>>', err)
+        res.status(500).send('Server Error');
+    }
+})
 module.exports = router;
