@@ -20,7 +20,7 @@ router.get('/me', auth, async (req, res) => {
 
         res.json(profile)
     } catch (err) {
-        console.error('error in Profile route >>>>', err)
+        console.error('error in Profile route:  api/profile/me >>>>', err)
         res.status(500).json({ msg: 'Server Error' });
     }
 }
@@ -107,7 +107,7 @@ router.post('/',
             console.log('profile CREATED>>>>>', profile)
 
         } catch (err) {
-            console.error('error in profile POST route api/profile >>>>>', err)
+            console.error('error in profile POST route: api/profile >>>>>', err)
             res.status(500).send('Server Error');
         }
     }
@@ -123,7 +123,7 @@ router.get('/', async (req, res) => {
         const profiles = await Profile.find().populate('user', ['name', 'avatar']);
         res.json(profiles);
     } catch (err) {
-        console.error('error in profile GET ', err)
+        console.error('error in profile GET route: profile/me >>>> ', err)
         res.status(500).send('Server Error');
     }
 })
