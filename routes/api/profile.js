@@ -135,7 +135,8 @@ router.get('/', async (req, res) => {
 
 router.get('/user/:user_id', async (req, res) => {
     try {
-        const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
+        const profile = await Profile.findOne({ user: req.params.user_id })
+            .populate('user', ['name', 'avatar']);
 
         if (!profile) {
             return res.status(400).send({ msg: 'Profile Not Found' })
@@ -181,7 +182,6 @@ router.delete('/', auth, async (req, res) => {
 //@desc        Add profile experience
 //@access      private
 
-
 router.put('/experience', [auth,
     [
         check('title', 'Title is required').not().isEmpty(),
@@ -207,4 +207,29 @@ router.put('/experience', [auth,
             res.status(500).send('Server Error');
         }
     })
+
+
+//@route       DELETE api/profile/experience/:exp_id
+//@desc        deletes experience from profile
+//@access      private
+
+
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+
+        //Get index of exp you want to remove
+        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+
+        profile.experience.splice('removeIndex', 1);
+        await profile.save()
+        res.json(profile)
+
+    } catch (err) {
+        console.error('ERROR in profile DELETE route: profile/experience >>>> ', err)
+        console.error('Message of error>>>>', err.message)
+        res.status(500).send('Server Error');
+    }
+})
 module.exports = router;
