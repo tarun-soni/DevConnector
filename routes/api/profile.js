@@ -272,17 +272,25 @@ router.put('/education', [auth,
 //@desc        deletes education from profile
 //@access      private
 
-
 router.delete('/education/:edu_id', auth, async (req, res) => {
 
     try {
         const foundProfile = await Profile.findOne({ user: req.user.id });
 
-        //Get index of exp you want to remove
-        const removeIndex = foundProfile.education.map(item => item.id).indexOf(req.params.edu_id);
-        foundProfile.education.splice('removeIndex', 1);
-        await foundProfile.save()
-        res.json(profile)
+        // below commeted code had bug where only the last added education gets deleted
+
+
+        // //Get index of exp you want to remove
+        // foundProfile.education.splice('removeIndex', 1);
+        // await foundProfile.save()
+        // res.json(profile)
+
+        // updates foundProfile.education by removing the edu_id education
+        if (foundProfile.education) {
+            foundProfile.education = foundProfile.education.filter(
+                profileEdu => profileEdu._id.toString() !== req.params.edu_id.toString()
+            );
+        }
 
         await foundProfile.save();
         return res.status(200).json(foundProfile);
