@@ -221,12 +221,20 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id });
 
+        if (!profile) {
+            return res.status(404).json({ msg: 'Profile does not exist' });
+        }
+        // bug fix : keeps deletes first experience
         //Get index of exp you want to remove
-        const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+        // const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+        // profile.experience.splice('removeIndex', 1);
 
-        profile.experience.splice('removeIndex', 1);
+        profile.experience = profile.experience.filter(
+            exp => exp._id.toString() !== req.params.exp_id
+        );
+
         await profile.save()
-        res.json(profile)
+        res.json(profile.experience)
 
     } catch (err) {
         console.error('ERROR in profile DELETE route: profile/experience >>>> ', err)
