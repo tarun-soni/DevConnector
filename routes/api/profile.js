@@ -295,12 +295,11 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
         // res.json(profile)
 
         // updates foundProfile.education by removing the edu_id education
-        if (foundProfile.education) {
-            foundProfile.education = foundProfile.education.filter(
-                profileEdu => profileEdu._id.toString() !== req.params.edu_id.toString()
-            );
-        }
-
+        foundProfile.education = foundProfile.education.filter(
+            profileEdu => profileEdu._id.toString() !== req.params.edu_id.toString()
+        );
+        
+        
         await foundProfile.save();
         return res.status(200).json(foundProfile);
 
