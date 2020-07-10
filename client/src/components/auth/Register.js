@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import axios from 'axios';
 const Register = () => {
 
     const [formData, setFormData] = useState({
@@ -11,9 +11,30 @@ const Register = () => {
 
     const { name, email, password, password2 } = formData
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
-        password === password2 ? console.log('formData', formData) : console.log('Passwords dosent match');
+        if (password === password2) {
+            const newUser = {
+                name,
+                email,
+                password
+            }
+            try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+                const body = JSON.stringify(newUser)
+                const response = await axios.post('/api/users', body, config)
+                console.log('token', response.data);
+            } catch (err) {
+                console.error('error in registration \n', err)
+            }
+        }
+        else {
+            console.log('Passwords dosent match');
+        }
     }
     return (
         <>
