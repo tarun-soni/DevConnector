@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { setAlert } from '../../actions/alert'
 import PropTypes from 'prop-types'
-
 import { useDispatch } from 'react-redux'
+
+
 const Register = (props) => {
 
     const [formData, setFormData] = useState({
@@ -110,3 +111,20 @@ Register.propTypes = {
 
 // export default connect(null, { setAlert })(Register);
 export default Register
+
+
+
+
+/*
+do either one of them
+1. export default connect(null, { setAlert })(Register);
+2. import { connect } from 'react-redux'
+3. add props
+4. props.setAlert('Passwords dosent match', 'danger')
+
+or
+
+1. import { useDispatch } from 'react-redux'
+2. const dispatch = useDispatch()
+3. dispatch(setAlert('Passwords do not match!', 'danger'))
+*/
