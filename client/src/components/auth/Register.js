@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-const Register = () => {
+//Redux
+import { connect } from 'react-redux'
+import { setAlert } from '../../actions/alert'
+import PropTypes from 'prop-types'
+
+import { useDispatch } from 'react-redux'
+const Register = (props) => {
 
     const [formData, setFormData] = useState({
         name: '',
@@ -9,32 +15,36 @@ const Register = () => {
         password: '',
         password2: '',
     })
+    const dispatch = useDispatch()
 
     const { name, email, password, password2 } = formData
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
         e.preventDefault();
         if (password === password2) {
-            const newUser = {
-                name,
-                email,
-                password
-            }
-            try {
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-                const body = JSON.stringify(newUser)
-                const response = await axios.post('/api/users', body, config)
-                console.log('token', response.data);
-            } catch (err) {
-                console.error('error in registration \n', err)
-            }
+            // const newUser = {
+            //     name,
+            //     email,
+            //     password
+            // }
+            // try {
+            //     const config = {
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         }
+            //     }
+            //     const body = JSON.stringify(newUser)
+            //     const response = await axios.post('/api/users', body, config)
+            //     console.log('token', response.data);
+            // } catch (err) {
+            //     console.error('error in registration \n', err)
+            // }
         }
         else {
             console.log('Passwords dosent match');
+            //(msg, alert-type) **coz payload in alert action requires these params**
+            // props.setAlert('Passwords dosent match', 'danger')
+            dispatch(setAlert('Passwords do not match!', 'danger'))
         }
     }
     return (
@@ -94,7 +104,9 @@ const Register = () => {
     )
 }
 
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired
+};
+
+// export default connect(null, { setAlert })(Register);
 export default Register
-
-
-
