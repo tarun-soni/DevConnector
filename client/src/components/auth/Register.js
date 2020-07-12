@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 //Redux
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import { setAlert } from '../../actions/alert'
 import { register } from '../../actions/auth'
 import PropTypes from 'prop-types'
@@ -24,28 +23,9 @@ const Register = (props) => {
     const onSubmit = async e => {
         e.preventDefault();
         if (password === password2) {
-            // const newUser = {
-            //     name,
-            //     email,
-            //     password
-            // }
-            // try {
-            //     const config = {
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         }
-            //     }
-            //     const body = JSON.stringify(newUser)
-            //     const response = await axios.post('/api/users', body, config)
-            //     console.log('token', response.data);
-            // } catch (err) {
-            //     console.error('error in registration \n', err)
-            // }
-
             dispatch(register({ name, email, password }))
         }
         else {
-            console.log('Passwords dosent match');
             //(msg, alert-type) **coz payload in alert action requires these params**
             // props.setAlert('Passwords dosent match', 'danger')
             dispatch(setAlert('Passwords do not match!', 'danger'))
