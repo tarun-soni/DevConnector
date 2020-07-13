@@ -11,7 +11,7 @@ const User = require('../../models/User');
 //@route       POST api/users
 //@desc        Register User
 //@access      public
-const nameErrorMsg = " Name is Required'"
+const nameErrorMsg = " Name is Required"
 const emailErrorMsg = " Please input a valid email address"
 const passwordErrorMsg = "Please enter a pass with 6 or more characters"
 
