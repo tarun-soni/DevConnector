@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-const Login = () => {
+import { Link, Redirect } from 'react-router-dom'
+//redux
+import { connect } from 'react-redux'
+import { login } from '../../actions/auth'
+import { useDispatch } from 'react-redux'
+import PropTypes from 'prop-types'
+
+const Login = ({ isAuthenticated }) => {
+    const dispatch = useDispatch()
 
     const [formData, setFormData] = useState({
         email: '',
@@ -11,7 +18,14 @@ const Login = () => {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value })
     const onSubmit = async e => {
         e.preventDefault();
+        dispatch(login(formData))
     }
+
+    //redirect if authenticated 
+    if (isAuthenticated) {
+        return <Redirect to="/dashboard" />;
+    }
+
     return (
         <>
             <h1 className="large text-primary">Sign Up</h1>
@@ -47,7 +61,25 @@ const Login = () => {
     )
 }
 
-export default Login
 
 
+// Login.propTypes = {
+//     login: PropTypes.func.isRequired,
+//     isAuthenticated: PropTypes.bool
+// };
+Login.propTypes = {
+    isAuthenticated: PropTypes.bool
+};
 
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+// export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps)(Login);
+
+
+/*
+either use commented lines and add {login} in props
+or use the current method using useDispatch HOOK
+*/

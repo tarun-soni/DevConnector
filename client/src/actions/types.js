@@ -11,3 +11,8 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 //for authenticating user
 export const USER_LOADED = 'USER_LOADED';
 export const AUTH_ERROR = 'AUTH_ERROR';
+
+//for loggin user in
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+
