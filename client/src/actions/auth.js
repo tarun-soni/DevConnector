@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { REGISTER_FAIL, REGISTER_SUCCESS, AUTH_ERROR, USER_LOADED, LOGIN_SUCCESS, LOGIN_FAIL } from './types'
+import { REGISTER_FAIL, REGISTER_SUCCESS, AUTH_ERROR, USER_LOADED, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from './types'
 
 import { setAlert } from './alert'
 import setAuthToken from '../utils/setAuthToken'
@@ -57,7 +57,7 @@ export const register = (dataFromUser) => async dispatch => {
 
 // LOGIN USER
 export const login = (dataFromUser) => async dispatch => {
-    console.log('data', dataFromUser)
+    // console.log('data', dataFromUser)
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -81,3 +81,9 @@ export const login = (dataFromUser) => async dispatch => {
         })
     }
 }
+
+//Logout
+export const logout = () => dispatch => {
+    dispatch({ type: LOGOUT });
+};
+
