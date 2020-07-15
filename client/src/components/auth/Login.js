@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+import Spinner from '../layouts/Spinner'
 
 const Login = ({ isAuthenticated }) => {
     const dispatch = useDispatch()
@@ -28,7 +29,7 @@ const Login = ({ isAuthenticated }) => {
 
     return (
         <>
-            <h1 className="large text-primary">Sign Up</h1>
+            <h1 className="large text-primary">Sign In</h1>
             <p className="lead"> <i className="fas fa-user"> </i> Sign In to your Account</p>
             <form className="form" onSubmit={e => onSubmit(e)} >
                 <div className="form-group">
