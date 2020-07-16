@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import DashboardActions from './DashboardActions'
 
 import { getCurrentProfile } from '../../actions/profile'
-
 
 import Spinner from '../layouts/Spinner'
 const Dashboard = ({ auth: { user }, profile: { profile, loading } }) => {
@@ -27,7 +27,7 @@ const Dashboard = ({ auth: { user }, profile: { profile, loading } }) => {
 
 
             {profile !== null ?
-                <> has  </>
+                <> <DashboardActions />  </>
                 :
                 <>
                     <p>You have not yet setup a profile, please add some info. </p>
