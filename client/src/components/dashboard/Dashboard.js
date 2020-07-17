@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import DashboardActions from './DashboardActions'
 import Experience from './Experience'
+import Education from './Education'
 import { getCurrentProfile } from '../../actions/profile'
 
 import Spinner from '../layouts/Spinner'
@@ -29,6 +30,7 @@ const Dashboard = ({ auth: { user }, profile: { profile, loading } }) => {
             {profile !== null ?
                 <> <DashboardActions />
                     <Experience experience={profile.experience} />
+                    <Education education={profile.education} />
                 </>
                 :
                 <>
