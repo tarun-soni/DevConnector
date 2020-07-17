@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { setAlert } from './alert'
 import { PROFILE_ERROR, GET_PROFILE, UPDATE_PROFILE } from './types'
-import { set } from 'mongoose'
-
 
 //get current users profile
 export const getCurrentProfile = () => async dispatch => {
@@ -14,6 +12,7 @@ export const getCurrentProfile = () => async dispatch => {
             payload: res.data
         })
     } catch (err) {
+        console.log("err in get current profile", err)
         dispatch({
             type: PROFILE_ERROR,
             payload: { msg: err.response.statusText, status: err.response.status }
