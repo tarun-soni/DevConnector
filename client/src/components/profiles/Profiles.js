@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { connect, useDispatch } from 'react-redux'
 import Spinner from '../layouts/Spinner'
 import { getProfiles } from '../../actions/profile'
-import { Link } from 'react-router-dom'
 import ProfileItem from './ProfileItem'
 
 const Profiles = ({ profile: { profiles, loading } }) => {
@@ -11,7 +9,7 @@ const Profiles = ({ profile: { profiles, loading } }) => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getProfiles())
-    }, [])
+    }, [dispatch])
 
     return (
         <>

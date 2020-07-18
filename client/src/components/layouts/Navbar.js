@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logout } from '../../actions/auth'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'

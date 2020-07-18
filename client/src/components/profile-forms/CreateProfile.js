@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Link, withRouter } from 'react-router-dom'
 import { connect, useDispatch } from "react-redux";
 import { createProfile } from '../../actions/profile'

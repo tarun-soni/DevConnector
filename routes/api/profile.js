@@ -75,7 +75,7 @@ router.post('/',
             profileFields.skills = skills.split(',').map(skill => skill.trim());
         }
 
-        console.log('profile skilss', profileFields.skills);
+        // console.log('profile skilss', profileFields.skills);
 
 
         //Build social object
@@ -100,7 +100,7 @@ router.post('/',
                     { new: true }
                 );
 
-                console.log('profile UPDATED  >>>>>', profile)
+                // console.log('profile UPDATED  >>>>>', profile)
                 return res.json(profile);
             }
             //Create

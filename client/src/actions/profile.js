@@ -156,7 +156,7 @@ export const deleteAccount = () => async dispatch => {
 
     if (window.confirm('Are you sure? This action can NOT be reversed')) {
         try {
-            const res = await axios.delete('/api/profile')
+            await axios.delete('/api/profile')
             dispatch({
                 type: CLEAR_PROFILE
             })

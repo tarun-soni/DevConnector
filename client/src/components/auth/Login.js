@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import Spinner from '../layouts/Spinner'
 
 const Login = ({ isAuthenticated }) => {
     const dispatch = useDispatch()
