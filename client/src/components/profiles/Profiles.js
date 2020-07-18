@@ -9,12 +9,12 @@ const Profiles = ({ profile: { profiles, loading } }) => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getProfiles())
-    }, [dispatch])
+    }, [])
 
     return (
         <>
             {
-                loading ? <Spinner /> :
+                profiles.length === 0 || loading ? <Spinner /> : (
                     <>
                         <h1 className="large text-primary">Developers</h1>
                         <p className="lead">
@@ -33,7 +33,7 @@ const Profiles = ({ profile: { profiles, loading } }) => {
                                     )
                             }
                         </div>
-                    </>
+                    </>)
             }
         </>
     )
