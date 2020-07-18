@@ -2,11 +2,13 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import moment from 'moment';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { deleteEducation } from '../../actions/profile'
 
 const Education = (propsFromDashboard) => {
 
     const { education } = propsFromDashboard
+    const dispatch = useDispatch()
 
     const educations = education.map(edu => (
         <tr key={edu._id}>
@@ -23,7 +25,7 @@ const Education = (propsFromDashboard) => {
             </td>
             <td>
                 <button
-                    // onClick={() => deleteExperience(exp._id)}
+                    onClick={() => dispatch(deleteEducation(edu._id))}
                     className="btn btn-danger"  >
                     Delete
                 </button>

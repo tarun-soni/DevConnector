@@ -5,6 +5,7 @@ const config = require('config');
 const auth = require('../../middleware/auth')
 const Profile = require('../../models/Profile')
 const User = require('../../models/User')
+const Post = require('../../models/Post')
 const { check, validationResult } = require('express-validator');
 
 //@route       GET api/profile/me
@@ -164,8 +165,8 @@ router.get('/user/:user_id', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
     try {
-        //TODO: remove users posts
-
+        // remove users posts
+        await Post.deleteMany({ user: req.user.id })
         //removes profile
         await Profile.findOneAndRemove({ user: req.user.id });
 
@@ -221,9 +222,6 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.user.id });
 
-        if (!profile) {
-            return res.status(404).json({ msg: 'Profile does not exist' });
-        }
         // bug fix : keeps deletes first experience
         //Get index of exp you want to remove
         // const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
@@ -234,7 +232,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
         );
 
         await profile.save()
-        res.json(profile.experience)
+        return res.status(200).json(profile);
 
     } catch (err) {
         console.error('ERROR in profile DELETE route: profile/experience >>>> ', err)
@@ -268,6 +266,7 @@ router.put('/education', [auth,
             profile.education.unshift(newEducation);
             await profile.save()
             res.json(profile)
+            // return res.json(profile)
         } catch (err) {
             console.error('error in profile PUT route: profile/education >>>> ', err)
             console.error('Message of error >>>>', err.message)
@@ -298,8 +297,8 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
         foundProfile.education = foundProfile.education.filter(
             profileEdu => profileEdu._id.toString() !== req.params.edu_id.toString()
         );
-        
-        
+
+
         await foundProfile.save();
         return res.status(200).json(foundProfile);
 
