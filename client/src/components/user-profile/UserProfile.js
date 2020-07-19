@@ -5,6 +5,9 @@ import Spinner from '../layouts/Spinner'
 import { getProfileById } from '../../actions/profile'
 import PropTypes from 'prop-types'
 import ProfileTop from './ProfileTop'
+import ProfileAbout from "./ProfileAbout";
+import ProfileExperience from "./ProfileExperience";
+import ProfileEducation from "./ProfileEducation";
 const UserProfile = ({ match, profile: { profile, loading }, auth }) => {
 
     useEffect(() => {
@@ -27,6 +30,37 @@ const UserProfile = ({ match, profile: { profile, loading }, auth }) => {
 
                         <div class="profile-grid my-1">
                             <ProfileTop profile={profile} />
+                            <ProfileAbout profile={profile} />
+
+                            <div className="profile-exp bg-white p-2">
+                                <h2 className="text-primary">Experience</h2>
+                                {
+                                    profile.experience.length > 0 ?
+                                        (<>
+                                            {profile.experience.map(exp => (
+                                                <ProfileExperience key={exp._id} experience={exp} />
+                                            ))}
+
+                                        </>) :
+                                        (<h2> No Experience Credentials found</h2>)
+                                }
+
+                            </div>
+
+                            <div className="profile-edu bg-white p-2">
+                                <h2 className="text-primary">Education</h2>
+                                {
+                                    profile.education.length > 0 ?
+                                        (<>
+                                            {profile.education.map(edu => (
+                                                <ProfileEducation key={edu._id} education={edu} />
+                                            ))}
+
+                                        </>) :
+                                        (<h2> No Education Credentials found</h2>)
+                                }
+
+                            </div>
                         </div>
                     </>
                 )}
