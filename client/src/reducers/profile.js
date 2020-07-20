@@ -40,7 +40,7 @@ export default function (state = initialState, action) {
         case GET_REPOS:
             return {
                 ...state,
-                reps: payload,
+                repos: payload,
                 loading: false
             }
         default:
