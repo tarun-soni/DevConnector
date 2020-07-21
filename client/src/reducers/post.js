@@ -1,4 +1,4 @@
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES } from '../actions/types'
+import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST } from '../actions/types'
 
 const initialState = {
   post: [],
@@ -26,8 +26,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: state.posts.map(post =>
-          post.id === payload.id ? { ...post, likes: payload.likes } : post
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
         ),
+        loading: false
+      };
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(post => post._id !== payload),
         loading: false
       };
     default:
@@ -35,6 +41,7 @@ export default function (state = initialState, action) {
   }
 }
 /*
+UPDATE_LIKES
 map throught the post for each post check to see if its the correct one.
  if it matches the payload.id (payload.id is the postId sent from payload)
  if it does,return all of the stuff in that post and just manipulate the likes
