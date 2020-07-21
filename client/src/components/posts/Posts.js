@@ -12,7 +12,6 @@ const Posts = ({ post: { posts, loading } }) => {
 
   useEffect(() => {
     dispatch(getPosts())
-    console.log('posts', posts);
   }, [])
 
   return loading ? <Spinner /> :
