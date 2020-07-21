@@ -115,8 +115,8 @@ router.put('/like/:id', auth, async (req, res) => {
 
         //check if the post is already liked
         //explaintaion- from all the likes, if theres a like from the logged in user i.e req.user.id
-        if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
-            return res.status(400).json({ msg: 'Post already liked' })
+        if (post.likes.some(like => like.user.toString() === req.user.id)) {
+            return res.status(400).json({ msg: 'Post already liked' });
         }
 
         //add a like 
@@ -129,6 +129,28 @@ router.put('/like/:id', auth, async (req, res) => {
         console.error('error in route /posts/like ', err);
         res.status(500).send('Server error');
     }
+
+    //
+
+    try {
+        const post = await Post.findById(req.params.id);
+
+        // Check if the post has already been liked
+        if (post.likes.some(like => like.user.toString() === req.user.id)) {
+            return res.status(400).json({ msg: 'Post already liked' });
+        }
+
+        post.likes.unshift({ user: req.user.id });
+
+        await post.save();
+
+        return res.json(post.likes);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+    //
+
 });
 
 
@@ -149,14 +171,15 @@ router.put('/unlike/:id', auth, async (req, res) => {
         //get remove index and splice (method 1)
         /* explaination- get index of the like by mapping through all the likes 
         and stop when it matches logged in user  i.e req.user.id */
-        const removeIndex = post.likes.map(like => like.user.toString()).indexOf(req.user.id);
-        post.likes.splice(removeIndex, 1)
+
+        // const removeIndex = post.likes.map(like => like.user.toString()).indexOf(req.user.id);
+        // post.likes.splice(removeIndex, 1)
 
 
         // method 2 (alternative method)
-        // post.likes = post.likes.filter(
-        //     ({ user }) => user.toString() !== req.user.id
-        // );
+        post.likes = post.likes.filter(
+            ({ user }) => user.toString() !== req.user.id
+        );
 
         await post.save()
         return res.json(post.likes)

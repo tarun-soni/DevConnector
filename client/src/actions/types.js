@@ -29,3 +29,4 @@ export const GET_REPOS = 'GET_REPOS';
 //posts
 export const GET_POSTS = 'GET_POSTS';
 export const POST_ERROR = 'POST_ERROR';
+export const UPDATE_LIKES = 'UPDATE_LIKES';

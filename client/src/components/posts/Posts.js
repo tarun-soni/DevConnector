@@ -12,7 +12,7 @@ const Posts = ({ post: { posts, loading } }) => {
 
   useEffect(() => {
     dispatch(getPosts())
-  }, [])
+  }, [getPosts])
 
   return loading ? <Spinner /> :
     (

@@ -9,7 +9,7 @@ const Profiles = ({ profile: { profiles, loading } }) => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getProfiles())
-    }, [])
+    }, [getProfiles])
 
     return (
         <>

@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { addLike, removeLike } from '../../actions/post';
 
 const PostItem = ({ auth, post }) => {
 
   const { _id, text, name, avatar, user, likes, comments, date } = post
+  const dispatch = useDispatch()
 
   return (
     <div className='post bg-white p-1 my-1'>
@@ -24,12 +26,14 @@ const PostItem = ({ auth, post }) => {
 
         <>
           <button
+            onClick={(e) => dispatch(addLike(_id))}
             type='button'
             className='btn btn-light'>
             <i className='fas fa-thumbs-up' />{' '}
             <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
           </button>
           <button
+            onClick={(e) => dispatch(removeLike(_id))}
             type='button'
             className='btn btn-light'>
             <i className='fas fa-thumbs-down' />

@@ -30,7 +30,7 @@ const App = () => {
 
   useEffect(() => {
     store.dispatch(loadUser());
-  }, [])
+  }, [loadUser])
 
   return (
 
