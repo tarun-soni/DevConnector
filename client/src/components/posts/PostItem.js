@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import { connect, useDispatch } from 'react-redux';
 import { addLike, removeLike, deletePost } from '../../actions/post';
 
-const PostItem = ({ auth, post }) => {
+const PostItem = ({ auth, post, showActions }) => {
 
   const { _id, text, name, avatar, user, likes, comments, date } = post
   const dispatch = useDispatch()
@@ -24,35 +24,40 @@ const PostItem = ({ auth, post }) => {
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>
 
-        <>
-          <button
-            onClick={(e) => dispatch(addLike(_id))}
-            type='button'
-            className='btn btn-light'>
-            <i className='fas fa-thumbs-up' />{' '}
-            <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
-          </button>
-          <button
-            onClick={(e) => dispatch(removeLike(_id))}
-            type='button'
-            className='btn btn-light'>
-            <i className='fas fa-thumbs-down' />
-          </button>
-          <Link to={`/posts/${_id}`} className='btn btn-primary'>
-            Discussion{' '}
-            {comments.length > 0 && (
-              <span className='comment-count'>{comments.length}</span>
-            )}
-          </Link>
-          {!auth.loading && user === auth.user._id && (
+        {showActions && (
+          <>
             <button
-              onClick={() => dispatch(deletePost(_id))}
+              onClick={() => dispatch(addLike(_id))}
               type='button'
-              className='btn btn-danger' >
-              <i className='fas fa-times' />
+              className='btn btn-light'
+            >
+              <i className='fas fa-thumbs-up' />{' '}
+              <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
             </button>
-          )}
-        </>
+            <button
+              onClick={() => dispatch(removeLike(_id))}
+              type='button'
+              className='btn btn-light'
+            >
+              <i className='fas fa-thumbs-down' />
+            </button>
+            <Link to={`/posts/${_id}`} className='btn btn-primary'>
+              Discussion{' '}
+              {comments.length > 0 && (
+                <span className='comment-count'>{comments.length}</span>
+              )}
+            </Link>
+            {!auth.loading && user === auth.user._id && (
+              <button
+                onClick={() => dispatch(deletePost(_id))}
+                type='button'
+                className='btn btn-danger'
+              >
+                <i className='fas fa-times' />
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
@@ -63,7 +68,8 @@ PostItem.defaultProps = {
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  showActions: PropTypes.bool
 };
 
 const mapStateToProps = state => ({
