@@ -6,7 +6,6 @@ import { getPosts } from '../../actions/post'
 import PostItem from './PostItem'
 import PostForm from './PostForm'
 
-
 const Posts = ({ post: { posts, loading } }) => {
 
   const dispatch = useDispatch()

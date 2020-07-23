@@ -1,4 +1,4 @@
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST, ADD_POST, GET_POST } from '../actions/types'
+import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST, ADD_POST, GET_POST, ADD_COMMENT, REMOVE_COMMENT } from '../actions/types'
 
 const initialState = {
   post: [],
@@ -48,6 +48,23 @@ export default function (state = initialState, action) {
         post: payload,
         loading: false
       }
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: { ...state.post, comments: payload },
+        loading: false
+      };
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: state.post.comments.filter(
+            comment => comment._id !== payload
+          )
+        },
+        loading: false
+      };
     default:
       return state;
   }
@@ -59,3 +76,10 @@ map throught the post for each post check to see if its the correct one.
  if it does,return all of the stuff in that post and just manipulate the likes
  if it dosent match the id, just return post
  */
+
+/* REMOVE_COMMENT
+posts state.
+first,keep all the post in current state (...state.post)
+comments is where we need to update
+keep all the comments in the state - the selected comment(payload)
+*/
