@@ -1,8 +1,8 @@
 import { GET_POSTS, POST_ERROR, UPDATE_LIKES, DELETE_POST, ADD_POST, GET_POST, ADD_COMMENT, REMOVE_COMMENT } from '../actions/types'
 
 const initialState = {
-  post: [],
-  posts: null,
+  post: null,
+  posts: [],
   loading: true,
   error: {}
 }
